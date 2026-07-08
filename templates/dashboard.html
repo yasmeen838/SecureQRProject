@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Welcome, {{ user.full_name }} 👋</h2>
+
+    <p>Manage your encrypted QR codes securely.</p>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>{{ total_messages }}</h4>
+                <p>Total QR Codes</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>{{ user.username }}</h4>
+                <p>Logged In User</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h4>{{ user.created_at.strftime('%d-%m-%Y') }}</h4>
+                <p>Member Since</p>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+    <!-- FIXED BUTTONS -->
+
+    <a href="{{ url_for('qr.generate') }}" class="btn btn-primary">
+        Generate QR Code
+    </a>
+
+    <a href="{{ url_for('qr.scan') }}" class="btn btn-success">
+        Scan QR Code
+    </a>
+
+    <a href="{{ url_for('qr.history') }}" class="btn btn-info">
+        History
+    </a>
+
+</div>
+
+{% endblock %}

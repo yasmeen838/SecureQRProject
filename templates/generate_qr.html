@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}
+Generate QR | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fa-solid fa-qrcode"></i>
+                        Generate Secure QR Code
+                    </h3>
+                </div>
+
+                <div class="card-body">
+
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    {% if success %}
+                    <div class="alert alert-success">
+                        {{ success }}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Enter Your Message
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="message"
+                                rows="5"
+                                placeholder="Type your confidential message here..."
+                                required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Secret Key
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                name="password"
+                                placeholder="Enter Secret Key"
+                                required>
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg">
+
+                                <i class="fa-solid fa-lock"></i>
+                                Generate Secure QR
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if qr_image %}
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h4 class="mb-0">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        QR Code Generated Successfully
+
+                    </h4>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    <img
+                        src="{{ url_for('static', filename=qr_image) }}"
+                        class="img-fluid border rounded p-3"
+                        style="max-width:300px;"
+                        alt="Generated QR">
+
+                    <hr>
+
+                    <h5>Secure QR Link</h5>
+
+                    <input
+                        type="text"
+                        class="form-control text-center"
+                        value="{{ qr_url }}"
+                        readonly>
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{{ url_for('static', filename=qr_image) }}"
+                            download
+                            class="btn btn-success">
+
+                            <i class="fa-solid fa-download"></i>
+
+                            Download QR
+
+                        </a>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="copyLink()">
+
+                            <i class="fa-solid fa-copy"></i>
+
+                            Copy Link
+
+                        </button>
+
+                        <a
+                            href="{{ url_for('qr.generate') }}"
+                            class="btn btn-secondary">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                            Generate Another
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+
+function copyLink() {
+
+    navigator.clipboard.writeText("{{ qr_url }}");
+
+    alert("Link Copied Successfully");
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Secure Message
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-lg">
+
+                <div class="card-header bg-primary text-white text-center">
+
+                    <h3>
+                        🔒 Secure QR Message
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if decrypted_message %}
+
+                        <div class="alert alert-success">
+
+                            <h4>Original Message</h4>
+
+                            <hr>
+
+                            <p>{{ decrypted_message }}</p>
+
+                        </div>
+
+                    {% else %}
+
+                        <form method="POST">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+
+                                    Enter Secret Key
+
+                                </label>
+
+                                <input
+                                    type="password"
+                                    name="secret_key"
+                                    class="form-control"
+                                    placeholder="Enter Secret Key"
+                                    required>
+
+                            </div>
+
+                            <button
+                                class="btn btn-primary w-100">
+
+                                Decrypt Message
+
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+                    {% if error %}
+
+                        <div class="alert alert-danger mt-3">
+
+                            {{ error }}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

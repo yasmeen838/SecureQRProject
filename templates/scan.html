@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Scan QR{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Scan QR Code</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label>Select QR Image</label>
+            <input type="file" name="qr_image" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Secret Key</label>
+            <input
+                type="password"
+                name="password"
+                class="form-control"
+                placeholder="Enter Secret Key"
+                required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Scan QR
+        </button>
+
+    </form>
+
+    {% if result %}
+    <div class="alert alert-success mt-4">
+        <strong>Result:</strong><br>
+        {{ result }}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

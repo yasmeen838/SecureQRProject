@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}
+Scan QR | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h3 class="mb-0">
+                        <i class="fa-solid fa-camera"></i>
+                        Scan QR Code
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Upload QR Code Image
+                            </label>
+
+                            <input
+                                type="file"
+                                class="form-control"
+                                name="qr_image"
+                                accept=".png,.jpg,.jpeg"
+                                required>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-lg">
+
+                                <i class="fa-solid fa-upload"></i>
+
+                                Scan QR Code
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if encrypted_data %}
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4 class="mb-0">
+                        Scan Result
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <label class="form-label">
+                        Encrypted Data
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="6"
+                        readonly>{{ encrypted_data }}</textarea>
+
+                    <div class="mt-4 d-flex gap-2">
+
+                        <form action="{{ url_for('qr.decrypt') }}"
+                              method="POST"
+                              class="w-100">
+
+                            <input
+                                type="hidden"
+                                name="encrypted_message"
+                                value="{{ encrypted_data }}">
+
+                            <button
+                                class="btn btn-warning w-100"
+                                type="submit">
+
+                                <i class="fa-solid fa-lock-open"></i>
+
+                                Decrypt Message
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

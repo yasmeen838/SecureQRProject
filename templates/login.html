@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6 col-lg-5">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-primary text-white text-center">
+
+                <h3>
+                    <i class="fa-solid fa-user-lock"></i>
+                    User Login
+                </h3>
+
+            </div>
+
+            <div class="card-body p-4">
+
+                <form method="POST" action="{{ url_for('auth.login') }}">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter your username"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter your password"
+                            required>
+
+                    </div>
+
+                    <div class="d-grid">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="card-footer text-center">
+
+                <p class="mb-0">
+
+                    Don't have an account?
+
+                    <a href="{{ url_for('auth.register') }}">
+                        Register Here
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

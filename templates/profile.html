@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Profile | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h3 class="mb-0">
+                        <i class="fa-solid fa-user"></i>
+                        My Profile
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-4 text-center">
+
+                            <img
+                                src="{{ url_for('static', filename='images/user.png') }}"
+                                class="img-fluid rounded-circle border"
+                                width="180"
+                                alt="User Profile">
+
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <table class="table">
+
+                                <tr>
+                                    <th>Full Name</th>
+                                    <td>{{ current_user.full_name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Username</th>
+                                    <td>{{ current_user.username }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ current_user.email }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Role</th>
+                                    <td>{{ current_user.role }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Member Since</th>
+                                    <td>{{ current_user.created_at.strftime('%d-%m-%Y') }}</td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <h4 class="mb-3">
+                        Update Profile
+                    </h4>
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="full_name"
+                                value="{{ current_user.full_name }}"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                name="email"
+                                value="{{ current_user.email }}"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                class="form-control"
+                                name="password"
+                                placeholder="Leave blank to keep current password">
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+                            Update Profile
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

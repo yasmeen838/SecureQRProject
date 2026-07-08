@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+Decrypt QR | Secure QR Code System
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning text-dark">
+
+                    <h3 class="mb-0">
+                        <i class="fa-solid fa-lock-open"></i>
+                        Decrypt QR Message
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST" action="{{ url_for('qr.decrypt') }}">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Encrypted Message
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                name="encrypted_message"
+                                rows="6"
+                                placeholder="Paste encrypted text here..."
+                                required>{% if request.method == 'POST' %}{{ request.form.get('encrypted_message', '') }}{% endif %}</textarea>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-warning">
+
+                                <i class="fa-solid fa-unlock"></i>
+
+                                Decrypt Message
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if original_message %}
+
+    <div class="row justify-content-center mt-5">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h4 class="mb-0">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Decryption Successful
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <label class="form-label">
+                        Original Message
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        rows="6"
+                        readonly>{{ original_message }}</textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

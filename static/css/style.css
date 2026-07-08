@@ -1,0 +1,160 @@
+/* =====================================
+   Secure QR Code System
+   MCA Final Year Project
+===================================== */
+
+body {
+    background: #f4f7fb;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+/* Navbar */
+
+.navbar {
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* Hero Section */
+
+.display-4 {
+    font-weight: bold;
+}
+
+.lead {
+    color: #555;
+}
+
+/* Cards */
+
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+}
+
+.btn-lg {
+    padding: 12px 18px;
+}
+
+/* Forms */
+
+.form-control {
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 8px rgba(13,110,253,.25);
+}
+
+/* Tables */
+
+.table {
+    vertical-align: middle;
+}
+
+.table thead th {
+    text-align: center;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+/* Images */
+
+img {
+    max-width: 100%;
+}
+
+.rounded-circle {
+    object-fit: cover;
+}
+
+/* QR Image */
+
+.qr-image {
+    max-width: 300px;
+    border: 5px solid #eee;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Alerts */
+
+.alert {
+    border-radius: 8px;
+}
+
+/* Footer */
+
+footer {
+    margin-top: 50px;
+}
+
+/* Dashboard Cards */
+
+.card i {
+    margin-bottom: 10px;
+}
+
+/* Badges */
+
+.badge {
+    font-size: .9rem;
+}
+
+/* Textarea */
+
+textarea {
+    resize: vertical;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .btn-lg {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    table {
+        font-size: .9rem;
+    }
+
+}
