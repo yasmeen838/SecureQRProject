@@ -12,9 +12,6 @@ from qr.scan_qr import scan_qr
 
 qr_bp = Blueprint("qr", __name__)
 
-# PythonAnywhere URL
-BASE_URL = "https://yasmeen838.pythonanywhere.com"
-
 
 # ---------------- GENERATE QR ----------------
 @qr_bp.route("/generate", methods=["GET", "POST"])
@@ -34,10 +31,10 @@ def generate():
                 error="Please fill all fields."
             )
 
-        # Encrypt message
+        # Encrypt Message
         encrypted_text = encrypt_message(message, password)
 
-        # Save to database
+        # Save in Database
         new_message = Message(
             user_id=current_user.id,
             encrypted_message=encrypted_text,
@@ -48,13 +45,14 @@ def generate():
         db.session.add(new_message)
         db.session.commit()
 
-        # Public URL (works with Google Lens)
-        qr_url = f"{BASE_URL}/view/{new_message.id}"
+        # Automatically detect current website URL
+        base_url = request.url_root.rstrip("/")
+        qr_url = f"{base_url}/view/{new_message.id}"
 
         # Generate QR Code
         qr_image = generate_qr(qr_url)
 
-        # Save QR image
+        # Save QR image name
         new_message.qr_image = qr_image
         db.session.commit()
 
@@ -62,7 +60,7 @@ def generate():
             "generate_qr.html",
             qr_image=qr_image,
             qr_url=qr_url,
-            success="QR Code Generated Successfully!"
+            success="QR Generated Successfully"
         )
 
     return render_template("generate_qr.html")
@@ -83,23 +81,25 @@ def scan():
         if not file or not password:
             return render_template(
                 "scan.html",
-                result="Please upload a QR Code and enter the Secret Key."
+                result="Please select QR and enter Secret Key."
             )
+
+        filename = "qr_" + str(int(time.time())) + ".png"
 
         upload_folder = os.path.join("uploads", "scanned_qr")
         os.makedirs(upload_folder, exist_ok=True)
 
-        filename = f"qr_{int(time.time())}.png"
         filepath = os.path.join(upload_folder, filename)
-
         file.save(filepath)
 
         scanned_data = scan_qr(filepath)
 
         if scanned_data.startswith("Error"):
             result = scanned_data
-        elif scanned_data.startswith("http"):
-            result = f"Open this link in your browser:\n\n{scanned_data}"
+
+        elif scanned_data.startswith("http://") or scanned_data.startswith("https://"):
+            result = f"Open this link:\n\n{scanned_data}"
+
         else:
             result = decrypt_message(scanned_data, password)
 
