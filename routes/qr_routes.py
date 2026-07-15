@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
-import time
 import os
+import time
 
 from database import db
 from models.message import Message
@@ -12,8 +12,8 @@ from qr.scan_qr import scan_qr
 
 qr_bp = Blueprint("qr", __name__)
 
-# Change this after deployment
-BASE_URL = "http://127.0.0.1:5000"
+# PythonAnywhere URL
+BASE_URL = "https://yasmeen838.pythonanywhere.com"
 
 
 # ---------------- GENERATE QR ----------------
@@ -34,10 +34,10 @@ def generate():
                 error="Please fill all fields."
             )
 
-        # Encrypt Message
+        # Encrypt message
         encrypted_text = encrypt_message(message, password)
 
-        # Save in Database
+        # Save to database
         new_message = Message(
             user_id=current_user.id,
             encrypted_message=encrypted_text,
@@ -48,13 +48,13 @@ def generate():
         db.session.add(new_message)
         db.session.commit()
 
-        # Create URL
+        # Public URL (works with Google Lens)
         qr_url = f"{BASE_URL}/view/{new_message.id}"
 
-        # Generate QR using URL
+        # Generate QR Code
         qr_image = generate_qr(qr_url)
 
-        # Save QR filename
+        # Save QR image
         new_message.qr_image = qr_image
         db.session.commit()
 
@@ -62,7 +62,7 @@ def generate():
             "generate_qr.html",
             qr_image=qr_image,
             qr_url=qr_url,
-            success="QR Generated Successfully"
+            success="QR Code Generated Successfully!"
         )
 
     return render_template("generate_qr.html")
@@ -83,21 +83,23 @@ def scan():
         if not file or not password:
             return render_template(
                 "scan.html",
-                result="Please select QR and enter Secret Key."
+                result="Please upload a QR Code and enter the Secret Key."
             )
-
-        filename = "qr_" + str(int(time.time())) + ".png"
 
         upload_folder = os.path.join("uploads", "scanned_qr")
         os.makedirs(upload_folder, exist_ok=True)
 
+        filename = f"qr_{int(time.time())}.png"
         filepath = os.path.join(upload_folder, filename)
+
         file.save(filepath)
 
         scanned_data = scan_qr(filepath)
 
         if scanned_data.startswith("Error"):
             result = scanned_data
+        elif scanned_data.startswith("http"):
+            result = f"Open this link in your browser:\n\n{scanned_data}"
         else:
             result = decrypt_message(scanned_data, password)
 
@@ -134,4 +136,14 @@ def decrypt():
 @qr_bp.route("/history")
 @login_required
 def history():
-    return render_template("history.html")
+
+    messages = Message.query.filter_by(
+        user_id=current_user.id
+    ).order_by(
+        Message.created_at.desc()
+    ).all()
+
+    return render_template(
+        "history.html",
+        messages=messages
+    )
