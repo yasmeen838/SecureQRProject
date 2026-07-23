@@ -17,15 +17,14 @@ def view_message(message_id):
 
         secret_key = request.form.get("secret_key")
 
-        result = decrypt_message(
+        decrypted_message = decrypt_message(
             message.encrypted_message,
             secret_key
         )
 
-        if result.startswith("❌"):
-            error = result
-        else:
-            decrypted_message = result
+        if decrypted_message.startswith("❌"):
+            error = decrypted_message
+            decrypted_message = None
 
     return render_template(
         "view_message.html",
