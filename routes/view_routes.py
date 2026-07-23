@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 from models.message import Message
 from encryption.decrypt import decrypt_message
 
@@ -13,18 +13,24 @@ def view_message(message_id):
     decrypted_message = None
     error = None
 
+    # Show the message if it is already stored in the session
+    if session.get(f"message_{message_id}"):
+        decrypted_message = session.get(f"message_{message_id}")
+
     if request.method == "POST":
 
         secret_key = request.form.get("secret_key")
 
-        decrypted_message = decrypt_message(
+        result = decrypt_message(
             message.encrypted_message,
             secret_key
         )
 
-        if decrypted_message.startswith("❌"):
-            error = decrypted_message
-            decrypted_message = None
+        if result.startswith("❌"):
+            error = result
+        else:
+            session[f"message_{message_id}"] = result
+            decrypted_message = result
 
     return render_template(
         "view_message.html",
