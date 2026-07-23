@@ -4,10 +4,14 @@ from encryption.decrypt import decrypt_message
 
 view_bp = Blueprint("view", __name__)
 
+
 @view_bp.route("/view/<int:message_id>", methods=["GET", "POST"])
 def view_message(message_id):
 
     message = Message.query.get_or_404(message_id)
+
+    decrypted_message = None
+    error = None
 
     if request.method == "POST":
 
@@ -18,14 +22,13 @@ def view_message(message_id):
             secret_key
         )
 
-        return f"""
-        <h1>Decrypted Message</h1>
-        <h2>{result}</h2>
-        """
+        if result.startswith("❌"):
+            error = result
+        else:
+            decrypted_message = result
 
-    return """
-    <form method="POST">
-        <input type="password" name="secret_key" placeholder="Secret Key">
-        <button type="submit">Decrypt</button>
-    </form>
-    """
+    return render_template(
+        "view_message.html",
+        decrypted_message=decrypted_message,
+        error=error
+    )
