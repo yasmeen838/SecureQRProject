@@ -8,50 +8,62 @@ History | Secure QR Code System
 
 <div class="container mt-5">
 
-    <div class="card shadow">
+    <div class="card shadow-lg">
 
         <div class="card-header bg-info text-white">
+
             <h3>
                 <i class="fa-solid fa-clock-rotate-left"></i>
-                Activity History
+                QR History
             </h3>
+
         </div>
 
         <div class="card-body">
 
-            {% if history %}
+            {% if messages %}
 
             <table class="table table-bordered table-hover">
 
                 <thead class="table-dark">
+
                     <tr>
+
                         <th>ID</th>
-                        <th>Action</th>
-                        <th>Status</th>
-                        <th>Message ID</th>
-                        <th>Date & Time</th>
+                        <th>QR Image</th>
+                        <th>Created On</th>
+                        <th>Open QR</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody>
 
-                {% for record in history %}
+                    {% for message in messages %}
 
                     <tr>
 
-                        <td>{{ record.id }}</td>
+                        <td>{{ message.id }}</td>
 
-                        <td>{{ record.action }}</td>
+                        <td>{{ message.qr_image }}</td>
 
-                        <td>{{ record.status }}</td>
+                        <td>{{ message.created_at.strftime('%d-%m-%Y %I:%M %p') }}</td>
 
-                        <td>{{ record.message_id or "-" }}</td>
+                        <td>
 
-                        <td>{{ record.scanned_at.strftime('%d-%m-%Y %I:%M %p') }}</td>
+                            <a href="{{ url_for('view.view_message', message_id=message.id) }}"
+                               class="btn btn-success btn-sm">
+
+                                View Message
+
+                            </a>
+
+                        </td>
 
                     </tr>
 
-                {% endfor %}
+                    {% endfor %}
 
                 </tbody>
 
@@ -61,15 +73,13 @@ History | Secure QR Code System
 
             <div class="text-center">
 
-                <h4>No Activity Found</h4>
+                <h4>No QR History Found</h4>
 
-                <p>Your QR generation and scan history will appear here.</p>
+                <p>Generate a QR Code to see it here.</p>
 
                 <a href="{{ url_for('qr.generate') }}" class="btn btn-primary">
 
-                    <i class="fa-solid fa-plus"></i>
-
-                    Generate Your First QR
+                    Generate QR
 
                 </a>
 
