@@ -8,109 +8,110 @@ Secure Message
 
 <div class="container mt-5">
 
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
 
-<div class="col-lg-8">
+        <div class="col-lg-8">
 
-<div class="card shadow-lg border-0">
+            <div class="card shadow-lg border-0">
 
-<div class="card-header bg-primary text-white text-center p-4">
+                <div class="card-header bg-primary text-white text-center p-4">
 
-<h2>
-🔒 Secure QR Message
-</h2>
+                    <h2>🔒 Secure QR Message</h2>
 
-<p class="mb-0">
-Enter the Secret Key to view the confidential message.
-</p>
+                    <p class="mb-0">
+                        Enter the Secret Key to view the confidential message.
+                    </p>
 
-</div>
+                </div>
 
-<div class="card-body p-5">
+                <div class="card-body p-5">
 
-{% if decrypted_message %}
+                    {% if decrypted_message %}
 
-<div class="alert alert-success text-center">
+                    <!-- MESSAGE WILL NOT DISAPPEAR -->
+                    <div class="card border-success shadow-lg">
 
-<h3 class="mb-4">
-✅ Message Decrypted Successfully
-</h3>
+                        <div class="card-header bg-success text-white">
 
-<div class="card border-success">
+                            <h3 class="mb-0">
+                                ✅ Message Decrypted Successfully
+                            </h3>
 
-<div class="card-body">
+                        </div>
 
-<p style="font-size:22px;font-weight:bold;color:#0d6efd;">
+                        <div class="card-body text-center">
 
-{{ decrypted_message }}
+                            <h4 class="text-primary">
 
-</p>
+                                {{ decrypted_message }}
 
-</div>
+                            </h4>
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-{% else %}
+                    {% else %}
 
-<form method="POST">
+                    <form method="POST">
 
-<div class="mb-4">
+                        <div class="mb-4">
 
-<label class="form-label">
+                            <label class="form-label">
 
-<b>Secret Key</b>
+                                <b>Secret Key</b>
 
-</label>
+                            </label>
 
-<input
-type="password"
-name="secret_key"
-class="form-control form-control-lg"
-placeholder="Enter Secret Key"
-required>
+                            <input
+                                type="password"
+                                name="secret_key"
+                                class="form-control form-control-lg"
+                                placeholder="Enter Secret Key"
+                                required>
 
-</div>
+                        </div>
 
-<button
-type="submit"
-class="btn btn-primary btn-lg w-100">
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg w-100">
 
-🔓 Decrypt Message
+                            🔓 Decrypt Message
 
-</button>
+                        </button>
 
-</form>
+                    </form>
 
-{% endif %}
+                    {% endif %}
 
-{% if error %}
+                    {% if error %}
 
-<div class="alert alert-danger mt-4 text-center">
+                    <div class="alert alert-danger mt-4">
 
-{{ error }}
+                        {{ error }}
 
-</div>
+                    </div>
 
-{% endif %}
+                    {% endif %}
 
-</div>
+                </div>
 
-<div class="card-footer text-center">
+                <div class="card-footer text-center">
 
-Secure QR Code Generator
-<br>
+                    <small>
 
-MCA Final Year Project
+                        Secure QR Code Generator |
+                        MCA Final Year Project
 
-</div>
+                    </small>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
+        </div>
+
+    </div>
 
 </div>
 
