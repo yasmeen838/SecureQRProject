@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Secure Message
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h3>🔒 Secure QR Message</h3>
+        </div>
+
+        <div class="card-body">
+
+            {% if decrypted_message %}
+
+                <h4 class="text-success">Message</h4>
+
+                <textarea class="form-control"
+                          rows="8"
+                          readonly>{{ decrypted_message }}</textarea>
+
+                <br>
+
+                <a href="{{ url_for('home') }}" class="btn btn-primary">
+                    Close
+                </a>
+
+            {% else %}
+
+                <form method="POST">
+
+                    <label>Enter Secret Key</label>
+
+                    <input
+                        type="password"
+                        name="secret_key"
+                        class="form-control"
+                        required>
+
+                    <br>
+
+                    <button class="btn btn-success">
+                        Decrypt Message
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+            {% if error %}
+
+                <br>
+
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

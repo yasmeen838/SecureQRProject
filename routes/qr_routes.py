@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 from flask_login import login_required, current_user
 import os
 import time
@@ -45,14 +45,14 @@ def generate():
         db.session.add(new_message)
         db.session.commit()
 
-        # Automatically detect current website URL
+        # Create URL for QR
         base_url = request.url_root.rstrip("/")
         qr_url = f"{base_url}/view/{new_message.id}"
 
-        # Generate QR Code
+        # Generate QR
         qr_image = generate_qr(qr_url)
 
-        # Save QR image name
+        # Save QR image
         new_message.qr_image = qr_image
         db.session.commit()
 
@@ -78,10 +78,10 @@ def scan():
         file = request.files.get("qr_image")
         password = request.form.get("password")
 
-        if not file or not password:
+        if not file:
             return render_template(
                 "scan.html",
-                result="Please select QR and enter Secret Key."
+                result="Please select a QR image."
             )
 
         filename = "qr_" + str(int(time.time())) + ".png"
@@ -94,14 +94,21 @@ def scan():
 
         scanned_data = scan_qr(filepath)
 
+        # QR Scan Error
         if scanned_data.startswith("Error"):
             result = scanned_data
 
+        # If QR contains a URL, open it automatically
         elif scanned_data.startswith("http://") or scanned_data.startswith("https://"):
-            result = f"Open this link:\n\n{scanned_data}"
+            return redirect(scanned_data)
 
+        # Otherwise decrypt normally
         else:
-            result = decrypt_message(scanned_data, password)
+
+            if not password:
+                result = "Please enter Secret Key."
+            else:
+                result = decrypt_message(scanned_data, password)
 
     return render_template(
         "scan.html",
